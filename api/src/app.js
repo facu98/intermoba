@@ -40,7 +40,9 @@ server.get("/:cvu", (req, res) => {
   Transaction.findOne({
     where: { cvu_receiver: req.params.cvu },
   }).then((tr) => {
-    if(!tr){return res.send('empty')}
+    if (!tr) {
+      return res.send("empty");
+    }
     transaction = tr;
     tr.destroy().then(() => {
       res.send(transaction);
@@ -49,6 +51,20 @@ server.get("/:cvu", (req, res) => {
 });
 
 server.post("/", (req, res) => {
+  const {
+    amount,
+    cvu_sender,
+    cvu_receiver,
+    name_sender,
+    description,
+  } = req.body;
+  if (!amount || cvu_sender || cvu_receiver) {
+    return res.send("Missing parameters");
+  }
+
+  if (typeof parseInt(amount) !== "number" || parseInt(amount) < 0) {
+    return res.send("Invalid amount");
+  }
   Transaction.create(req.body).then((tr) => {
     res.send(tr);
   });

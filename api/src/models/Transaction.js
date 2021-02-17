@@ -21,6 +21,9 @@ module.exports = (sequelize) => {
     cvu_receiver: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    status:{
+      type: DataTypes.STRING
     }
   });
 };
