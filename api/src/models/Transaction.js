@@ -22,7 +22,11 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    status:{
+    status: {
+      type: DataTypes.ENUM("processing", "cancelled", "confirmed"),
+      defaultValue:'processing'
+  },
+    message: {
       type: DataTypes.STRING
     }
   });

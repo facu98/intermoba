@@ -38,7 +38,7 @@ server.use((err, req, res, next) => {
 server.get("/:cvu", (req, res) => {
   var transaction;
   Transaction.findOne({
-    where: { cvu_receiver: req.params.cvu },
+    where: { cvu_receiver: req.params.cvu, status:'processing' },
   }).then((tr) => {
     if (!tr) {
       return res.send("empty");
@@ -58,7 +58,7 @@ server.post("/", (req, res) => {
     name_sender,
     description,
   } = req.body;
-  if (!amount || cvu_sender || cvu_receiver) {
+  if (!amount || !cvu_sender || !cvu_receiver) {
     return res.send("Missing parameters");
   }
 
@@ -68,5 +68,9 @@ server.post("/", (req, res) => {
   Transaction.create(req.body).then((tr) => {
     res.send(tr);
   });
+
+  server.get('/changestatus', (req,res) => {
+    
+  })
 });
 module.exports = server;
