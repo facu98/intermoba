@@ -66,9 +66,9 @@ server.post("/", (req, res) => {
   });
 
 
-  
 
-  server.get("/changestatus", (req, res) => {
+
+  server.post("/changestatus", (req, res) => {
     const { cvu, status, id, message } = req.body;
     Transaction.findOne({
       where:{id}
