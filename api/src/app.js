@@ -36,17 +36,13 @@ server.use((err, req, res, next) => {
 
 /////////////// ROUTES
 server.get("/:cvu", (req, res) => {
-  var transaction;
   Transaction.findOne({
-    where: { cvu_receiver: req.params.cvu, status:'processing' },
+    where: { cvu_receiver: req.params.cvu, status: "processing" },
   }).then((tr) => {
     if (!tr) {
       return res.send("empty");
     }
-    transaction = tr;
-    tr.destroy().then(() => {
-      res.send(transaction);
-    });
+    res.send(tr)
   });
 });
 
@@ -69,8 +65,25 @@ server.post("/", (req, res) => {
     res.send(tr);
   });
 
-  server.get('/changestatus', (req,res) => {
-    
-  })
+
+  
+
+  server.get("/changestatus", (req, res) => {
+    const { cvu, status, id, message } = req.body;
+    Transaction.findOne({
+      where:{id}
+    })
+    .then((tr) => {
+      if(status === 'cancelled'){
+        tr.status = 'cancelled'
+        tr.message = message
+        tr.save().then((tr) => {return res.send(tr)})
+      }
+      else{
+        tr.status = 'confirmed'
+        tr.save().then((tr) => {return res.send(tr)})
+      }
+    })
+  });
 });
 module.exports = server;
