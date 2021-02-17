@@ -24,5 +24,6 @@ const { conn } = require('./src/db.js');
 conn.sync({ force: true }).then(() => {
   server.listen(process.env.PORT || 3000, () => {
     console.log(`SERVER LISTENING AT ${process.env.PORT || 3000}`); // eslint-disable-line no-console
+    console.log(`Connected to Database ${conn.config.database}, with user '${conn.config.username}' on port ${conn.config.port}`)
   });
 });
