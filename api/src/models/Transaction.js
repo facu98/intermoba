@@ -28,6 +28,9 @@ module.exports = (sequelize) => {
   },
     message: {
       type: DataTypes.STRING
+    },
+    user: {
+      type: DataTypes.STRING
     }
   });
 };

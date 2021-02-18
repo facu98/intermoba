@@ -69,12 +69,13 @@ server.post("/", (req, res) => {
 
 
   server.post("/changestatus", (req, res) => {
-    const { cvu, status, id, message } = req.body;
+    const { cvu, status, id, message, user } = req.body;
     Transaction.findOne({
       where:{id}
     })
     .then((tr) => {
       if(status === 'cancelled'){
+        tr.user = user
         tr.status = 'cancelled'
         tr.message = message
         tr.save().then((tr) => {return res.send(tr)})
@@ -85,5 +86,15 @@ server.post("/", (req, res) => {
       }
     })
   });
+
+  server.get('/checkstatus/:id', (req,res) => {
+    Transaction.findOne({
+      where:{id:req.params.id}
+    })
+    .then((tr) => {
+      if(!tr.length){return res.send('Transaction not found')}
+      res.send(tr)
+    })
+  })
 });
 module.exports = server;
