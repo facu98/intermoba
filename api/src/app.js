@@ -92,7 +92,8 @@ server.post("/", (req, res) => {
       where:{id:req.params.id}
     })
     .then((tr) => {
-      if(!tr.length){return res.send('Transaction not found')}
+      console.log(tr)
+      if(!tr){return res.send('Transaction not found')}
       res.send(tr)
     })
   })
