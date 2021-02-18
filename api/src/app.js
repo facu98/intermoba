@@ -55,11 +55,11 @@ server.post("/", (req, res) => {
     description,
   } = req.body;
   if (!amount || !cvu_sender || !cvu_receiver) {
-    return res.send("Missing parameters");
+    return res.status(400).send("Missing parameters");
   }
 
   if (typeof parseInt(amount) !== "number" || parseInt(amount) < 0) {
-    return res.send("Invalid amount");
+    return res.status(400).send("Invalid amount");
   }
   Transaction.create(req.body).then((tr) => {
     res.send(tr);
