@@ -75,12 +75,12 @@ server.post("/", (req, res) => {
     })
     .then((tr) => {
       if(status === 'cancelled'){
-        tr.user = user
         tr.status = 'cancelled'
         tr.message = message
         tr.save().then((tr) => {return res.send(tr)})
       }
       else{
+        tr.user = user
         tr.status = 'confirmed'
         tr.save().then((tr) => {return res.send(tr)})
       }
